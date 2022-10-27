@@ -1,4 +1,4 @@
 # movie-explorer-full
 
-+ [Ссылка на проект на github](https://github.com/alix1982/movies-explorer-full/compare/main...level-3)
++ [Ссылка на проект movies-explorer-full на github](https://github.com/alix1982/movies-explorer-full/pull/1)
 
