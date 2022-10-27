@@ -1,0 +1,166 @@
+.aboutMe {
+  width: 100%;
+  padding-top: 110px;
+  /* height: 50vw; */
+}
+.aboutMe__heading {
+  margin: 0 auto 23px 70px;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  color: #000000;
+}
+.aboutMe__line {
+  margin: 0 70px;
+  border-bottom: 1px solid #000000;
+}
+.aboutMe__info {
+  margin: 66px 70px 100px;
+  display: grid;
+  grid-template-columns: 54% 25%;
+  grid-template-rows: 58px 20px 1fr 17px;
+  grid-column-gap: 21%;
+  grid-row-gap: 22px;
+}
+.aboutMe__name {
+  margin: 0;
+  grid-column: 1/2;
+  grid-row: 1/2;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  color: #000000;
+}
+.aboutMe__work {
+  margin: 0;
+  grid-column: 1/2;
+  grid-row: 2/3;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: #111111;
+}
+.aboutMe__live {
+  margin: 0;
+  grid-column: 1/2;
+  grid-row: 3/4;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+}
+.aboutMe__linkGithub {
+  grid-column: 1/2;
+  grid-row: 4/5;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  align-self: end;
+  text-decoration: none;
+}
+.aboutMe__linkGithub:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+.aboutMe__locationFoto {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  grid-column: 2/3;
+  grid-row: 1/5;
+}
+.aboutMe__foto {
+  width: 100%;
+  border-radius: 10px;
+
+  object-fit: contain;
+}
+@media screen and (max-width: 800px) {
+  .aboutMe {
+    padding-top: 90px;
+  }
+  .aboutMe__heading {
+    margin: 0 auto 23px 50px;
+  }
+  .aboutMe__line {
+    margin: 0 50px;
+  }
+  .aboutMe__info {
+    margin: 66px 50px 91px;
+    grid-template-columns: 69% 25%;
+    grid-template-rows: 40px 18px 1fr 17px;
+    grid-column-gap: 6%;
+    grid-row-gap: 18px;
+  }
+  .aboutMe__name {
+    font-size: 40px;
+    line-height: 40px;
+  }
+  .aboutMe__work {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .aboutMe__live {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .aboutMe {
+    padding-top: 70px;
+  }
+  /* .aboutMe__heading {
+    margin: 0 auto 28px 14px;
+  } */
+  /* .aboutMe__line {
+    margin: 0 14px;
+  } */
+  .aboutMe__info {
+    display:flex;
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+    flex-direction: column;
+    /* margin: 60px 14px 70px; */
+  }
+  .aboutMe__name {
+    margin-top: 40px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .aboutMe__work {
+    margin-top: 20px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .aboutMe__live {
+    margin-top: 20px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .aboutMe__linkGithub {
+    margin-top: 40px;
+    align-self: flex-start;
+  }
+}
+@media screen and (max-width: 400px) {
+  .aboutMe__heading {
+    margin: 0 auto 28px 14px;
+  }
+  .aboutMe__line {
+    margin: 0 14px;
+  }
+  .aboutMe__info {
+    margin: 60px 14px 70px;
+  }
+}

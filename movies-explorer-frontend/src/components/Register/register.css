@@ -1,0 +1,83 @@
+.formRegister__fieldInput {
+  width: 31vw;
+  margin: 0;
+  margin-bottom: 8px;
+  padding: 0;
+  border: none;
+}
+.formRegister__fieldInput:last-child {
+  margin-bottom: 0;
+}
+.formRegister__inputHeading {
+  margin: 0;
+  margin-bottom: 10px;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A0A0A0;
+}
+.formRegister__input {
+  width: 396px;
+  height: 46px;
+  background: #F9F9F9;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  margin: 0;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+}
+.formRegister__message-error {
+  width: 100%;
+  height: 1.25vw;
+  margin: 0;
+  padding: 0;
+  color: #FF3055;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
+@media screen and (max-width: 800px) {
+  .formRegister__inputHeading {
+    width: 10vw;
+  }
+  .formRegister__message-error {
+    width: 100%;
+    height: 1.25vw;
+    display: inline;
+    text-align: end;
+    color: #FF3055;
+    font-family: Inter, Georgia, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 9px;
+    line-height: 11px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .formRegister__fieldInput {
+    width: 335px;
+  }
+  .formRegister__input {
+    width: 335px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .formRegister__fieldInput {
+    width: 260px;
+  }
+  .formRegister__inputHeading {
+    width: 14vw;
+  }
+  .formRegister__input {
+    width: 260px;
+  }
+}

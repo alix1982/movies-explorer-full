@@ -1,0 +1,71 @@
+.headerMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 70px;
+  width: calc(100% - 140px);
+  height: 74px;
+  background: #5C5C5C;
+}
+.headerMain__user {
+  display: flex;
+  align-items: center;
+}
+.headerMain__button_register {
+  background: #5C5C5C;
+  color: #ffffff;
+  border: none;
+  text-decoration: none;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+.headerMain__button_register:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.headerMain__button_login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 76px;
+  height: 32px;
+  background: #2BE080;
+  color: #000000;
+  margin-left: 30px;
+  border: none;
+  border-radius: 3px;
+  text-decoration: none;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+.headerMain__button_login:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+@media screen and (max-width: 800px) {
+  .headerMain {
+    padding: 0 30px;
+    width: calc(100% - 60px);
+  }
+}
+@media screen and (max-width: 400px) {
+  .headerMain {
+    padding: 0 14px;
+    width: calc(100% - 28px);
+  }
+  .headerMain__button_register {
+    font-size: 10px;
+  }
+  .headerMain__button_login {
+    width: 54px;
+    height: 26px;
+    margin-left: 14px;
+    font-size: 10px;
+  }
+}

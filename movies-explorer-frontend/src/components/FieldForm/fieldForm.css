@@ -1,0 +1,116 @@
+.form__fieldInput {
+  margin: 0;
+  padding: 0;
+  border: none;
+
+}
+.formAuth__fieldInput {
+  width: 396px;
+  margin-bottom: 8px;
+}
+.formAuth__fieldInput:last-child {
+  margin-bottom: 0;
+}
+.formProfile__fieldInput {
+  width: 410px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.form__inputHeading {
+  margin: 0;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+}
+.formAuth__inputHeading {
+  margin-bottom: 10px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A0A0A0;
+}
+.formProfile__inputHeading {
+  width: 8vw;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+}
+.form__input {
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+}
+.formAuth__input {
+  width: 366px;
+  height: 46px;
+  padding: 0 15px;
+  background: #F9F9F9;
+  border-radius: 8px;
+  border: none;
+}
+.formProfile__input {
+  width: 24vw;
+  text-align: end;
+}
+.form__message-error {
+  width: 100%;
+  height: 1.25vw;
+  margin: 0;
+  padding: 0;
+  color: #FF3055;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
+.formProfile__message-error {
+  display: inline;
+  text-align: end;
+}
+@media screen and (max-width: 800px) {
+  .form__inputHeading {
+    width: 10vw;
+  }
+  .form__message-error {
+    /* width: 100%;
+    height: 1.25vw; */
+    display: inline;
+    text-align: end;
+    /* color: #FF3055;
+    font-family: Inter, Georgia, sans-serif;
+    font-style: normal;
+    font-weight: 400; */
+    font-size: 9px;
+    line-height: 11px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .form__fieldInput {
+    width: 335px;
+  }
+  .formAuth__input {
+    width: 305px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .form__fieldInput {
+    width: 260px;
+  }
+  .formAuth__inputHeading {
+    width: 14vw;
+  }
+  .formAuth__input {
+    width: 230px;
+  }
+  .formProfile__input {
+    width: 40vw;
+  }
+}
