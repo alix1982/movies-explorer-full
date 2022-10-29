@@ -1,5 +1,5 @@
-const MAIN_URL = 'http://localhost:3001';  // для локального сервера
-// const MAIN_URL = 'https://api.alix576-movie.nomorepartiesxyz.ru';  // для публичного сервера
+// const MAIN_URL = 'http://localhost:3001';  // для локального сервера
+const MAIN_URL = 'https://api.alix576-movie.nomorepartiesxyz.ru';  // для публичного сервера
 const MOVIES_URL = 'https://api.nomoreparties.co';
 
 
@@ -13,6 +13,7 @@ class MainApi {
   }
 
   _getStatus = (res) => {
+    console.log(res);
     if (res.ok) {
       return res.json();
     }
@@ -34,7 +35,7 @@ class MainApi {
   } 
 
   getCards = () => {
-    // this._setJwt(localStorage.getItem('token'));
+    this._setJwt(localStorage.getItem('token'));
     return (fetch(`${this.mainUrl}/movies`, {
       method: 'GET',
       headers: this.heading,
@@ -129,6 +130,7 @@ class MainApi {
       .then(res => this._getStatus(res))
     )
   }
+
   _setJwt = (token) => {
     this.heading.authorization = `Bearer ${token}`;
   }

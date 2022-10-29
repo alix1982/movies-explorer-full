@@ -216,6 +216,7 @@ function App() {
   useEffect(()=>{
     handleCheckToken();
   }, [])
+  
   // обновленние данных пользователя
   function updateUser (currentUser) {
     mainApi.patchUserInfo (currentUser)
