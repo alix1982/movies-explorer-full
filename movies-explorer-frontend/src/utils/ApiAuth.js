@@ -17,10 +17,14 @@ export function useApiAuth () {
       })
     })
       .then((response) => {
-        if (response.ok) {return response.json()}
+        if (response.ok) {
+          navigate("/movies")
+          return response.json()
+        }
         else {navigate('/signup')}
         return Promise.reject(`Ошибка: ${response.status}`);
       })
+      // .then(()=>{navigate("/movies")})
   }
   function login (email, password) {
     return fetch(`${MAIN_URL}/signin`, {
@@ -35,10 +39,14 @@ export function useApiAuth () {
       })
     })
       .then((response) => {
-        if (response.ok) {return response.json()}
+        if (response.ok) {
+          navigate("/movies")
+          return response.json()
+        }
         else { navigate('/signin') }
         return Promise.reject(`Ошибка: ${response.status}`);
       })
+      // .then(()=>{navigate("/movies")})
   }
   // поменять `${BASE_URL}/users/me` для локального сервера 'https://auth.nomoreparties.co/users/me'
   const checkToken = () => {

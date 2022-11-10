@@ -1,6 +1,6 @@
 // import React from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 
 import buttonAkkaunt from '../../images/buttonAkkaunt.svg';
@@ -12,6 +12,9 @@ function Navigation (props) {
     document.addEventListener('keydown', onCloseEsc);
     return () => {!props.isNavigationPopupOpen && document.removeEventListener('keydown', onCloseEsc)}
   })
+
+  const activeClass = ({isActive}) => isActive ? 'navigation__movies navigation__movies_active' : 'navigation__movies';
+
   return (
     <section>
       <div className={`navigation ${(props.isNavigationPopupOpen && 'navigation__active')}`} onClick = {props.onCloseOverlay}>
@@ -20,10 +23,14 @@ function Navigation (props) {
             <Link to="/" className="navigation__main" onClick={props.onClose}>Главная</Link>
           </li>
           <li className="navigation__point">
-            <Link to="/movies" className="navigation__movies" onClick={props.onClose}>Фильмы</Link>
+            <NavLink to="/movies" className={activeClass} onClick={props.onClose}>
+              Фильмы
+            </NavLink>
           </li>
           <li className="navigation__point">
-            <Link to="/saved-movie" className="navigation__movies" onClick={props.onClose}>Сохранённые фильмы</Link>
+            <NavLink to="/saved-movie" className={activeClass} onClick={props.onClose}>
+              Сохранённые фильмы
+            </NavLink>
           </li>
           <li className="navigation__point">
             <Link to="/profile" className="navigation__akkaunt" onClick={props.onClose}>

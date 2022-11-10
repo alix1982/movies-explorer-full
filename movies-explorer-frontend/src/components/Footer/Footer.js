@@ -1,6 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-// import foto from '../../../images/foto-student.jpg';
 
 function Footer (props) {
   return (
@@ -18,7 +16,6 @@ function Footer (props) {
           </li>
         </ul>
       </div>
-      {/* <Link to="/sign-in" className="portfolio__link" ></Link> */}
     </footer>
   )
 }

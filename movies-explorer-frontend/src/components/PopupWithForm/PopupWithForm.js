@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 function PopupWithForm (props) {
   // console.log(props.isValid)
+
+  useEffect(()=>{props.changeButtonSave()},[])
+  useEffect(()=>{props.changeButtonSave()},[props.values])
+
   function onPopupWithFormClick () {props.onClickPopupWithForm(props.name)}
   
   return(
@@ -13,7 +17,7 @@ function PopupWithForm (props) {
         {props.children}
         <button className={`form__save form${props.auth}__save form${props.name}__save ${!props.isValid && `form${props.name}__save_disable`}` } 
           type="submit" disabled={!props.isValid}>
-          {props.textButtonSave}
+          {!props.isButtonSave ? props.textButtonSave : "Профиль сохранён"}
         </button>
         <div className="form__buttonOption">
           <p className="form__text">{props.text}</p>

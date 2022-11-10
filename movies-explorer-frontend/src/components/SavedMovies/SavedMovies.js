@@ -1,28 +1,32 @@
 import SearchForm from '../SavedMovies/SearchForm/SearchForm.js';
 import MoviesCardListSaved from '../SavedMovies/MoviesCardList/MoviesCardList.js';
-// import Preloader from '../Preloader/Preloader.js';
+import { useEffect } from 'react';
+import Preloader from '../Preloader/Preloader.js';
 
 function Movies (props) {
+
+  function firstRenderingSavedCard () {
+    props.setCurrentCardSaved(props.currentCardMain)
+  }
+  useEffect(()=>{firstRenderingSavedCard()},[])
+
   return(
     <main>
       <SearchForm
         valueInputMovie={props.valueInputMovie} setvalueInputMovie={props.setvalueInputMovie}
-        setInputChecked={props.setInputChecked}
+        inputChecked={props.inputChecked} setInputChecked={props.setInputChecked}
         renderingSavedCard={props.renderingSavedCard}
         setCurrentCard={props.setCurrentCard}  // ??? currentCardMain
       />
-      {/* <Preloader/> */}
-      <MoviesCardListSaved onCards = {props.onCards} 
+      <Preloader 
+        isSearchMovie={props.isSearchMovie} 
+        isRequestPassed={props.isRequestPassed}
+      />
+      <MoviesCardListSaved 
         isQuantityCards={props.isQuantityCards} 
-        handleOnClickButtonMore={props.handleOnClickButtonMore}
-        setIsRequestPassed={props.setIsRequestPassed}
-        isButtonMore={props.isButtonMore}
-        setIsSearchMovie={props.setIsSearchMovie}
-        onCardLike={props.onCardLike}
         offCardLike={props.offCardLike}
-        currentCardMain={props.currentCardMain} setCurrentCardMain={props.setCurrentCardMain}
-        currentCardSaved={props.currentCardSaved} setCurrentCardSaved={props.setCurrentCardSaved}
-        setIsOnCardLike={props.setIsOnCardLike} isOnCardLike={props.isOnCardLike}
+        currentCardMain={props.currentCardMain} 
+        currentCardSaved={props.currentCardSaved} 
       />
     </main>
   )

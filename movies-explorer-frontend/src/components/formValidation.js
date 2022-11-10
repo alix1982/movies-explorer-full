@@ -13,6 +13,7 @@ export function useForm() {
   return {values, handleChange, setValues};
 }
 
+
 //хук управления формой и валидации формы
 export function useFormWithValidation() {
   const [values, setValues] = useState({});
@@ -40,5 +41,5 @@ export function useFormWithValidation() {
     [setValues, setErrors, setIsValid, setIsValidInputs]
   );
 
-  return { values, errors, isValid, isValidInputs, setValues, handleChange, resetForm, setIsValid, setIsValidInputs};
+  return { values, errors, isValid, isValidInputs, setValues, setErrors, handleChange, resetForm, setIsValid, setIsValidInputs};
 }

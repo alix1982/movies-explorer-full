@@ -92,13 +92,25 @@
   color: #FFFFFF;
   background-color: #A0A0A0;
 }
+.formRegister__save_disable:hover {
+  cursor: none;
+  opacity: 1;
+}
 .formLogin__save_disable {
   color: #FFFFFF;
   background-color: #A0A0A0;
 }
-.formProfile__save-disable {
+.formLogin__save_disable:hover {
+  cursor: none;
+  opacity: 1;
+}
+.formProfile__save_disable {
   background-color: #ffffff;
   color: #A0A0A0;
+}
+.formProfile__save_disable:hover {
+  cursor: default;
+  opacity: 1;
 }
 @media screen and (max-width: 800px) {
   .form__buttonOption {

@@ -9,13 +9,11 @@ function Movies (props) {
     <main>
       <SearchForm
         valueInputMovie={props.valueInputMovie} setvalueInputMovie={props.setvalueInputMovie}
-        // inputChecked={props.inputChecked} 
-        setInputChecked={props.setInputChecked}
+        inputChecked={props.inputChecked} setInputChecked={props.setInputChecked}
+        currentCard={props.currentCard} setCurrentCard={props.setCurrentCard}
         renderingCard={props.renderingCard}
-        setCurrentCard={props.setCurrentCard}
       />
       <Preloader 
-        // messageError={props.messageError}
         isSearchMovie={props.isSearchMovie} 
         isRequestPassed={props.isRequestPassed}
       />
@@ -25,12 +23,10 @@ function Movies (props) {
         setIsRequestPassed={props.setIsRequestPassed}
         isButtonMore={props.isButtonMore}
         setIsSearchMovie={props.setIsSearchMovie}
-        // currentCard={props.currentCard} setCurrentCard={props.setCurrentCard}
         onCardLike={props.onCardLike}
         offCardLike={props.offCardLike}
         currentCardMain={props.currentCardMain}
-        // setIsOnCardLike={props.setIsOnCardLike} isOnCardLike={props.isOnCardLike}
-
+        isRequestDelCard={props.isRequestDelCard} setIsRequestDelCard={props.setIsRequestDelCard}
       />
     </main>
   )

@@ -75,6 +75,7 @@
   display: inline;
   text-align: end;
 }
+
 @media screen and (max-width: 800px) {
   .form__inputHeading {
     width: 10vw;

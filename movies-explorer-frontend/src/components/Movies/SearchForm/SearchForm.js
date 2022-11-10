@@ -3,54 +3,39 @@ import search from '../../../images/buttonSearch.svg';
 import { useState, useEffect } from 'react';
 
 function SearchForm (props) {
-  // placeholder="&#128269; Фильм"   //  лупа в плейсхолдер
-  // const regex = /[^A-Za-zА-Яа-я0-9]/   //валидация поля ввода регулярным выражением
 
   // заполнение инпута из localStorage и пользователем
-  const [counterLocalStorage, setCounterLocalStorage] = useState(false);
-  function requestLocalStorage () {
-    let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
-    // console.log(inputValue)
-    if (inputValue && !counterLocalStorage){ 
-      props.setvalueInputMovie(inputValue.valueInputMovie);
-      props.setInputChecked(inputValue.checked);
-      props.setCurrentCard(inputValue.arrMovies)
-    }
-  }
-  useEffect(() => {requestLocalStorage ()},[])
+  // function requestLocalStorage () {
+  //   let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
+  //   props.setvalueInputMovie(inputValue.valueInputMovie);
+  //   props.setInputChecked(inputValue.checked);
+  //   props.setCurrentCard(inputValue.arrMovies);
+  // }
+  // useEffect(() => {requestLocalStorage ()},[])
 
   function handleOnChange (e) {
-    setCounterLocalStorage(true)
-    // inputValue = e.target.value;
     props.setvalueInputMovie(e.target.value);
-
   }
-
   function handleOnChangeChecked (e) {
-    setCounterLocalStorage(true)
-    // inputValue = e.target.value;
     props.setInputChecked(e.target.checked)
   }
 
-  // сообщение о пустом поле ввода и ошибке запроса
-  const [isMessageErr, setIsMessageErr] = useState('');
+  useEffect(()=>{ props.renderingCard() },[props.inputChecked])
+
+  const [isMessageErr, setIsMessageErr] = useState('');  // сообщение о пустом поле ввода и ошибке запроса
 
   function handleOnSubmit (e) {
     e.preventDefault();
-    // props.setIsSearchMovie('')
     if (e.target[1].value === '') {
       setIsMessageErr('Нужно ввести ключевое слово');
       return;
     } else {
-      props.setvalueInputMovie(e.target[1].value)
-      props.setInputChecked(e.target[3].checked)
+      props.setvalueInputMovie(e.target[1].value);
+      props.setInputChecked(e.target[3].checked);
     }
-    // props.onTextButtonSubmit("Удаление...");
     setIsMessageErr('');
     props.renderingCard();
-    setCounterLocalStorage(false);
   }
-   
 
   return (
     <section className="searchForm">
@@ -67,7 +52,8 @@ function SearchForm (props) {
         </fieldset>
         <label htmlFor="searchFormCheckbox" className="searchForm__switch">
           <input className="searchForm__switchCheckbox" id="searchFormCheckbox" type="checkbox" 
-            onChange={handleOnChangeChecked} checked={props.inputChecked}
+            onChange={handleOnChangeChecked} 
+            checked={props.inputChecked} 
           />
           <span className="searchForm__imgCheckbox"></span>
           <p className="searchForm__textCheckbox">Короткометражки</p>

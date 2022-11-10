@@ -34,6 +34,10 @@
   border: none;
   background-color: #ffffff;
 }
+.navigation__movies_active {
+  font-weight: 500;
+  border-bottom: 1px solid #000000;
+}
 .navigation__movies:hover {
   font-weight: 500;
   opacity: 0.8;
@@ -84,6 +88,7 @@
 .navigation__active {
   display: block;
 }
+
 @media screen and (max-width: 800px) {
   .navigation {
     display: none;
@@ -141,12 +146,15 @@
     font-size: 18px;
     line-height: 22px;
   }
+  .navigation__movies_active {
+    border-bottom: 2px solid #000000;
+  }
   .navigation__movies:hover {
     border-bottom: 2px solid #000000;
     cursor: pointer;
   }
   .navigation__akkaunt {
-    margin-top: 81vw;
+    margin-top: 50vw;
     margin-left: 0;
   }
   .navigation__buttonClose {
@@ -173,6 +181,7 @@
     background: url('../../images/navigationButton.svg');
   }
 }
+
 @media screen and (max-width: 400px) {
   .navigation {
     /* display: none; */

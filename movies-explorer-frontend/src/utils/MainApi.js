@@ -8,7 +8,6 @@ class MainApi {
   {
     this.movieUrl = movieUrl;
     this.mainUrl = mainUrl;
-
     this.heading = heading;
   }
 
@@ -30,19 +29,34 @@ class MainApi {
         name: inputList.name,
       })
     })
-      .then(res => this._getStatus(res))
+      .then((res) => {
+        // console.log(res);
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
     );
   } 
 
   getCards = () => {
     this._setJwt(localStorage.getItem('token'));
+    // console.log(localStorage.getItem('token'))
+
     return (fetch(`${this.mainUrl}/movies`, {
       method: 'GET',
       headers: this.heading,
     })
-      .then(res => this._getStatus(res))
+      .then((res) => {
+        // console.log(res);
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
     );
   }
+
   postAddCard = (card) => {
     this._setJwt(localStorage.getItem('token'));
     // console.log(`${this.movieUrl}${card.image.url}`)
@@ -64,30 +78,29 @@ class MainApi {
         // owner: "633490f552e1e44d60014077"
       })
     })
-      .then(res => this._getStatus(res))
+      .then((res) => {
+        // console.log(res);
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
     )
   };
 
-//   patchUserAvatar = (linkAvatar) => {
-//     this._setJwt(localStorage.getItem('token'));
-//     return (fetch(`${this.url}/users/me/avatar`, {
-//       method: 'PATCH',
-//       headers: this.heading,
-//       body: JSON.stringify({
-//         avatar: linkAvatar,
-//       })
-//     })
-//       .then(res => this._getStatus(res))
-//     )
-//   }
-
   deleteCardDel = (card) => {
-    // this._setJwt(localStorage.getItem('token'));
+    this._setJwt(localStorage.getItem('token'));
     return (fetch (`${this.mainUrl}/movies/${card}`, {
         method: 'DELETE',
         headers: this.heading,
       })
-      .then(res => this._getStatus(res))
+      .then((res) => {
+        // console.log(res);
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
     )
   }
 
@@ -119,15 +132,19 @@ class MainApi {
   //   )
   // }
 
-
-
   getUser = () => {
     this._setJwt(localStorage.getItem('token'));
     return (fetch(`${this.mainUrl}/users/me`, {
       method: 'GET',
       headers: this.heading,
     })
-      .then(res => this._getStatus(res))
+      .then((res) => {
+        // console.log(res);
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
     )
   }
 
