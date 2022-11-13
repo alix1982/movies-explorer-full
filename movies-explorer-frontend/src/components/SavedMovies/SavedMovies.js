@@ -13,14 +13,16 @@ function Movies (props) {
   return(
     <main>
       <SearchForm
-        valueInputMovie={props.valueInputMovie} setvalueInputMovie={props.setvalueInputMovie}
-        inputChecked={props.inputChecked} setInputChecked={props.setInputChecked}
+        valueInputMovieSaved={props.valueInputMovieSaved} setvalueInputMovieSaved={props.setvalueInputMovieSaved}
+        inputCheckedSaved={props.inputCheckedSaved} setInputCheckedSaved={props.setInputCheckedSaved}
         renderingSavedCard={props.renderingSavedCard}
         setCurrentCard={props.setCurrentCard}  // ??? currentCardMain
       />
       <Preloader 
         isSearchMovie={props.isSearchMovie} 
+        isSearchMovieSaved={props.isSearchMovieSaved} 
         isRequestPassed={props.isRequestPassed}
+        isNavigateMovies={props.isNavigateMovies}
       />
       <MoviesCardListSaved 
         isQuantityCards={props.isQuantityCards} 

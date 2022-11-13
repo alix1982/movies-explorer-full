@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
-
 
 function NoRoute (props) {
+  // let urlBack = window.history.back();
+  // console.log(urlBack);
+  function backHistory() {
+    window.history.go(-2)
+  }
   return(
     <section className="noRoute">
       <h2 className="noRoute__heading">404</h2>
       <p className="noRoute__text">Страница не найдена</p>
-      <Link to="/" className="noRoute__link">Назад</Link>
+      <button className="noRoute__link" onClick={backHistory}>Назад</button>
     </section>
   )
 }

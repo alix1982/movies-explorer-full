@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard.js';
 
 function MoviesCardList (props) {
-  let arr = []
-  if (JSON.parse(localStorage.getItem('arrMovies'))){ 
-    arr = JSON.parse(localStorage.getItem('arrMovies')).arrMovies;
-  }
+  // let arr = []
+  // if (JSON.parse(localStorage.getItem('arrMovies'))){ 
+  //   arr = JSON.parse(localStorage.getItem('arrMovies')).arrMovies;
+  // }
   // console.log(arr)
+  // console.log(props.currentCard)
   // function receiveArrMovies () {
   //   if (arr){ 
   //     // props.setIsRequestPassed(true);
@@ -15,11 +16,11 @@ function MoviesCardList (props) {
   //     } else {props.setIsSearchMovie('')}
   //   }
   // }
-  // useEffect(() => {receiveArrMovies()},[arr])
+  // useEffect(() => {receiveArrMovies()},[props.currentCard])
   return (
     <section className="moviesCardList">
       <ul className="moviesCardList__gallery">
-        {arr.map ((card, index) => {
+        {props.currentCard.map ((card, index) => {
         if (index >= props.isQuantityCards) {return;}
         return (
           <MoviesCard

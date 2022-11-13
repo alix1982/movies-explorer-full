@@ -5,13 +5,15 @@
   align-items: center;
   justify-content: space-between;
 }
+.headerMain {
+  background: #5C5C5C;
+}
 .headerAuth {
   width: 396px;
   margin: 0 auto;
 }
 .header__logo {
   margin-left: 70px;
-  /* align-self: ; */
 }
 .header__logo:hover {
   cursor: pointer;
@@ -39,11 +41,13 @@
     margin-right: 30px;
   }
 }
+
 @media screen and (max-width: 500px) {
   .headerAuth {
     width: 335px;
   }
 }
+
 @media screen and (max-width: 400px) {
   .headerAuth {
     width: 260px;

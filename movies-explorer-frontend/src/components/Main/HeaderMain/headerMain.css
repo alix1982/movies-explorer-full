@@ -2,14 +2,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 70px;
-  width: calc(100% - 140px);
+  width: 100%;
   height: 74px;
   background: #5C5C5C;
+}
+.headerMain__logo {
+  padding-left: 70px;
 }
 .headerMain__user {
   display: flex;
   align-items: center;
+  padding-right: 70px;
 }
 .headerMain__button_register {
   background: #5C5C5C;
@@ -48,16 +51,22 @@
   opacity: 0.8;
   cursor: pointer;
 }
+
 @media screen and (max-width: 800px) {
-  .headerMain {
-    padding: 0 30px;
-    width: calc(100% - 60px);
+  .headerMain__logo {
+    padding-left: 30px;
+  }
+  .headerMain__user {
+    padding-right: 30px;
   }
 }
+
 @media screen and (max-width: 400px) {
-  .headerMain {
-    padding: 0 14px;
-    width: calc(100% - 28px);
+  .headerMain__logo {
+    padding-left: 14px;
+  }
+  .headerMain__user {
+    padding-right: 14px;
   }
   .headerMain__button_register {
     font-size: 10px;

@@ -15,7 +15,9 @@ function Movies (props) {
       />
       <Preloader 
         isSearchMovie={props.isSearchMovie} 
+        isSearchMovieSaved={props.isSearchMovieSaved} 
         isRequestPassed={props.isRequestPassed}
+        isNavigateMovies={props.isNavigateMovies}
       />
       <MoviesCardList 
         isQuantityCards={props.isQuantityCards} 
@@ -25,6 +27,7 @@ function Movies (props) {
         setIsSearchMovie={props.setIsSearchMovie}
         onCardLike={props.onCardLike}
         offCardLike={props.offCardLike}
+        currentCard={props.currentCard} setCurrentCard={props.setCurrentCard}
         currentCardMain={props.currentCardMain}
         isRequestDelCard={props.isRequestDelCard} setIsRequestDelCard={props.setIsRequestDelCard}
       />

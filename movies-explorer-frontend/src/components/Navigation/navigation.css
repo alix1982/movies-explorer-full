@@ -21,6 +21,11 @@
   display: none;
   text-decoration: none;
 }
+
+.navigation__main_active {
+  font-weight: 500;
+  border-bottom: 1px solid #000000;
+}
 .navigation__movies {
   margin-right: 0;
   padding: 0;
@@ -32,7 +37,10 @@
   line-height: 18px;
   color: #000000;
   border: none;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+}
+.navigationMain__movies {
+  color: #ffffff;
 }
 .navigation__movies_active {
   font-weight: 500;
@@ -53,7 +61,6 @@
   justify-content: space-between;
   margin: 0;
   margin-left: 30px;
-  background-color: #ffffff;
   border: 2px solid rgba(170, 170, 170, 0.2);;
   border-radius: 50px;
 }
@@ -70,6 +77,9 @@
   font-size: 14px;
   line-height: 16px;
   color: #000000;
+}
+.navigationMain__textButtonAkkaunt {
+  color: #ffffff;
 }
 .navigation__buttonClose {
   display: none;
@@ -133,6 +143,10 @@
     line-height: 22px;
     color: #000000;
   }
+  .navigation__main_active {
+    font-weight: 500;
+    border-bottom: 1px solid #000000;
+  }
   .navigation__main:hover {
     border-bottom: 2px solid #000000;
     cursor: pointer;
@@ -146,6 +160,9 @@
     font-size: 18px;
     line-height: 22px;
   }
+  .navigationMain__movies {
+    color: #000000;
+  }
   .navigation__movies_active {
     border-bottom: 2px solid #000000;
   }
@@ -156,6 +173,9 @@
   .navigation__akkaunt {
     margin-top: 50vw;
     margin-left: 0;
+  }
+  .navigationMain__textButtonAkkaunt {
+    color: #000000;
   }
   .navigation__buttonClose {
     display: block;
@@ -180,12 +200,12 @@
     border: none;
     background: url('../../images/navigationButton.svg');
   }
+  .navigationMain__button {
+    background: url('../../images/navigationButtonMain.svg');
+  }
 }
 
 @media screen and (max-width: 400px) {
-  .navigation {
-    /* display: none; */
-  }
   .navigation__list {
     left: 0;
     top: 0;
@@ -197,6 +217,10 @@
     margin-top: 45vw;
     background: #ffffff;
     border: none;
+  }
+  .navigation__main_active {
+    font-weight: 500;
+    border-bottom: 1px solid #000000;
   }
   .navigation__movies {
     margin-top: 24px;

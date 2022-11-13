@@ -1,3 +1,4 @@
+import Header from '../Header/Header.js';
 import HeaderMain from '../Main/HeaderMain/HeaderMain.js';
 import Promo from '../Main/Promo/Promo.js';
 import NavTab from '../Main/NavTab/NavTab.js';
@@ -9,7 +10,14 @@ import Portfolio from '../Main/Portfolio/Portfolio.js';
 function Main (props) {
   return(
     <>
-      <HeaderMain/>
+      {(props.loggedIn) ? 
+        <Header isNavigationPopupOpen = {props.isNavigationPopupOpen} onPopupNavigation = {props.onPopupNavigation}
+          onClose = {props.onClose} onCloseOverlay = {props.onCloseOverlay} offNavigation = {"Enabled"}
+          isNavigateMovies={props.isNavigateMovies} setIsNavigateMovies={props.setIsNavigateMovies}
+          auth = {props.auth}
+        /> : 
+        <HeaderMain/>}
+      {/* <HeaderMain/> */}
       <main>
         <Promo/>
         <NavTab/>

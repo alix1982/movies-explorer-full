@@ -7,26 +7,27 @@ function SearchForm (props) {
   // const regex = /[^A-Za-zА-Яа-я0-9]/   //валидация поля ввода регулярным выражением
 
   function clearingFormLoads () {
-    props.setvalueInputMovie('');
+    props.setvalueInputMovieSaved('');
+    props.setInputCheckedSaved(false)
   }
   useEffect(()=>{clearingFormLoads()},[])
 
   function handleOnChange (e) {
-    props.setvalueInputMovie(e.target.value);
+    props.setvalueInputMovieSaved(e.target.value);
   }
   function handleOnChangeChecked (e) {
-    props.setInputChecked(e.target.checked)
+    props.setInputCheckedSaved(e.target.checked)
   }
 
-  useEffect(()=>{ props.renderingSavedCard() },[props.inputChecked])
+  useEffect(()=>{ props.renderingSavedCard() },[props.inputCheckedSaved])
 
   // сообщение о пустом поле ввода и ошибке запроса
   const [isMessageErr, setIsMessageErr] = useState('');
 
   function handleOnSubmit (e) {
     e.preventDefault();
-    props.setvalueInputMovie(e.target[1].value)
-    props.setInputChecked(e.target[3].checked)
+    props.setvalueInputMovieSaved(e.target[1].value)
+    props.setInputCheckedSaved(e.target[3].checked)
     props.renderingSavedCard();
   }
 
