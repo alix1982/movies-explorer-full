@@ -14,7 +14,8 @@ function Header (props) {
           isNavigationPopupOpen = {props.isNavigationPopupOpen} 
           onClose = {props.onClose} onCloseOverlay = {props.onCloseOverlay} 
           onPopupNavigation = {props.onPopupNavigation}
-          isNavigateMovies={props.isNavigateMovies} setIsNavigateMovies={props.setIsNavigateMovies}
+          // isNavigateMovies={props.isNavigateMovies}
+           setIsNavigateMovies={props.setIsNavigateMovies}
           // setvalueInputMovie={props.setvalueInputMovie}
           auth = {props.auth}
         />

@@ -12,11 +12,10 @@ class MainApi {
   }
 
   _getStatus = (res) => {
-    console.log(res);
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(res.status);
   };
 
   patchUserInfo = (inputList) => {
@@ -29,13 +28,7 @@ class MainApi {
         name: inputList.name,
       })
     })
-      .then((res) => {
-        // console.log(res);
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._getStatus(res))
     );
   } 
 
@@ -47,13 +40,7 @@ class MainApi {
       method: 'GET',
       headers: this.heading,
     })
-      .then((res) => {
-        // console.log(res);
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._getStatus(res))
     );
   }
 
@@ -78,13 +65,7 @@ class MainApi {
         // owner: "633490f552e1e44d60014077"
       })
     })
-      .then((res) => {
-        // console.log(res);
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._getStatus(res))
     )
   };
 
@@ -94,13 +75,7 @@ class MainApi {
         method: 'DELETE',
         headers: this.heading,
       })
-      .then((res) => {
-        // console.log(res);
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._getStatus(res))
     )
   }
 
@@ -138,13 +113,7 @@ class MainApi {
       method: 'GET',
       headers: this.heading,
     })
-      .then((res) => {
-        // console.log(res);
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(res => this._getStatus(res))
     )
   }
 

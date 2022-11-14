@@ -7,11 +7,11 @@ import {useFormWithValidation} from '../formValidation.js';
 
 
 function Login (props) {
-  const { values, errors, isValid, isValidInputs, setErrors, setIsValid, setIsValidInputs, handleChange, resetForm } = useFormWithValidation();
+  // const { values, errors, isValid, isValidInputs, setErrors, setIsValid, setIsValidInputs, handleChange, resetForm } = useFormWithValidation();
 
   useEffect(()=>{
-    resetForm();
-    setIsValidInputs({
+    props.resetForm();
+    props.setIsValidInputs({
       email: true,
       password: true,
       name: true,
@@ -19,19 +19,20 @@ function Login (props) {
   }, [])
 
   useEffect(()=>{
-    if (values.email) {
-      if (!validator.isEmail(values.email)) {
-        setIsValidInputs({email: false});
-        setErrors({email: "неправильный формат почты"});
-        setIsValid(false);
+    if (props.values.email) {
+      if (!validator.isEmail(props.values.email)) {
+        props.setIsValidInputs({email: false});
+        props.setErrors({email: "неправильный формат почты"});
+        props.setIsValid(false);
       }
     };
-  },[values])
+  },[props.values])
 
   function handleSubmit (e) {
     e.preventDefault();
+    props.setIsValid(false);
     props.setIsDisabledInput(true);
-    props.apiLogin(values.email, values.password);
+    props.apiLogin(props.values.email, props.values.password);
   }
 
   return(
@@ -39,22 +40,22 @@ function Login (props) {
       textButtonSave="Войти" textButtonOption="Регистрация" onClickPopupWithForm={props.onClickPopupWithForm}
       apiLogin={props.apiLogin}
       handleSubmit={handleSubmit}
-      isValid={isValid} 
-      values={values}
+      isValid={props.isValid} 
+      values={props.values}
       isButtonSave={props.isButtonSave} changeButtonSave={props.changeButtonSave}
     >
       <FieldForm
         formType="Auth" heading="E-mail"
         inputName="email" placeholder="pochta@yandex.ru"
         textError="поле ошибок валидации"
-        isValidInputs={isValidInputs} values={values.email} onChange={handleChange} errors={errors.email}
+        isValidInputs={props.isValidInputs} values={props.values.email} onChange={props.handleChange} errors={props.errors.email}
         isDisabledInput={props.isDisabledInput} 
       />
       <FieldForm
         formType="Auth" heading="Пароль"
         type="password" inputName="password" placeholder="••••••••••••••"
         textError="поле ошибок валидации"
-        isValidInputs={isValidInputs} values={values.password} onChange={handleChange} errors={errors.password}
+        isValidInputs={props.isValidInputs} values={props.values.password} onChange={props.handleChange} errors={props.errors.password}
         isDisabledInput={props.isDisabledInput} 
       />
     </PopupWithForm>

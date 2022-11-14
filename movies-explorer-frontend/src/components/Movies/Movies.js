@@ -9,6 +9,7 @@ function Movies (props) {
     <main>
       <SearchForm
         valueInputMovie={props.valueInputMovie} setvalueInputMovie={props.setvalueInputMovie}
+        valueInputMovieSaved={props.valueInputMovieSaved} setvalueInputMovieSaved={props.setvalueInputMovieSaved}
         inputChecked={props.inputChecked} setInputChecked={props.setInputChecked}
         currentCard={props.currentCard} setCurrentCard={props.setCurrentCard}
         renderingCard={props.renderingCard}

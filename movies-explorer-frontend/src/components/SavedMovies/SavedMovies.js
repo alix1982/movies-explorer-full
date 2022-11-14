@@ -16,7 +16,8 @@ function Movies (props) {
         valueInputMovieSaved={props.valueInputMovieSaved} setvalueInputMovieSaved={props.setvalueInputMovieSaved}
         inputCheckedSaved={props.inputCheckedSaved} setInputCheckedSaved={props.setInputCheckedSaved}
         renderingSavedCard={props.renderingSavedCard}
-        setCurrentCard={props.setCurrentCard}  // ??? currentCardMain
+        isNavigateMovies={props.isNavigateMovies}
+        setCurrentCard={props.setCurrentCard}
       />
       <Preloader 
         isSearchMovie={props.isSearchMovie} 

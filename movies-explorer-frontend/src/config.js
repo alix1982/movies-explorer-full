@@ -9,6 +9,11 @@ const constants = {
     average: 8,
     small: 4,
   },
+  NUMBER_CARD_MORE:{
+    big: 14,
+    average: 2,
+    small: 2,
+  }
 }
 
 export default constants

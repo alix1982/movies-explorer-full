@@ -11,42 +11,38 @@ import Profile from '../Profile/Profile.js';
 import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
 import ProtectedRoute from '../ProtectedRoute.js';
-
 import NoRoute from '../NoRoute/NoRoute';
-
 import { moviesApi } from '../../utils/MoviesApi.js';
 import { mainApi } from '../../utils/MainApi.js';
 import { useApiAuth } from '../../utils/ApiAuth.js';
-
+import {useFormWithValidation} from '../formValidation.js';
 import {CurrentUserContext, currentUserContext} from '../../contexts/CurrentUserContext.js';
 import constants from '../../config.js';
 
 function App() {
-
-  const [isNavigationPopupOpen, setIsNavigationPopup] = useState(false);
+  const [isNavigationPopupOpen, setIsNavigationPopup] = useState(false); // открытие попапа навигации
   const [isRequestPassed, setIsRequestPassed] = useState(false); //прохождение запроса карточек фильмов с сервера практикума
   const [isButtonMore, setIsButtonMore] = useState(false); // отрисовка кнопки "Ещё"
   const [isButtonSave, setIsButtonSave] = useState(false); // изменение текста кнопки редактирования профиля
   const [loggedIn, setLoggedIn] = useState(false); // защита роутов
   const [allMovies, setAllMovies] = useState([]);  // карточки c сервера практикума
-  const [currentUser, setCurrentUser] = useState(
-    {
-      name: 'Александр',
-      email: 'pochta@yandex.ru',
-      // _id: "633490f552e1e44d60014077"
-    }
-  );
+  const [currentUser, setCurrentUser] = useState({name: 'Александр', email: 'pochta@yandex.ru',}); //первоначальные данные пользователя
   const [currentCard, setCurrentCard] = useState([]);  // карточки с сервера практикума отфильтрованные пользователем
   const [currentCardMain, setCurrentCardMain] = useState([]);  // карточки сохраненные пользователем
   const [currentCardSaved, setCurrentCardSaved] = useState([]);  // карточки сохраненные пользователем отфильтрованные пользователем
   const [isRequestDelCard, setIsRequestDelCard] = useState(false);    // прохождение запроса на удаление карточки
   const [isNavigateMovies, setIsNavigateMovies] = useState(false);    // переход между Фильмы и Сохраненные фильмы
   const [isDisabledInput, setIsDisabledInput] = useState(false);    // блокировка полей ввода
-  // const [isRequestAllMovies, setIsRequestAllMovies] = useState(false);    // прохождение запроса к серверу с фильмами практикума
   const [isRequestLocalStorage, setIsRequestLocalStorage] = useState(false);    // прохождение запроса к localStorage
-
+  const [valueInputMovie, setvalueInputMovie] = useState('') // value input поиска фильмов в Фильм
+  const [valueInputMovieSaved, setvalueInputMovieSaved] = useState('') // value input поиска фильмов в Сохраненные фильмы
+  const [inputChecked, setInputChecked] = useState(false) // нажатие чекбокса в Фильм
+  const [inputCheckedSaved, setInputCheckedSaved] = useState(false) // нажатие чекбокса в Сохраненные фильмы
+  const [isSearchMovie, setIsSearchMovie] = useState('') // сообщение ошибки запроса или нулевого поиска вкладки Фильмы
+  const [isSearchMovieSaved, setIsSearchMovieSaved] = useState('') // сообщение нулевого поиска вкладки Сохраненные фильмы
+  
+  const { values, errors, isValid, isValidInputs, setValues, setErrors, setIsValid, setIsValidInputs, handleChange, resetForm } = useFormWithValidation();
   const { register, login, checkToken } = useApiAuth();
- 
   let navigate = useNavigate();
 
   // закрытие попапов
@@ -63,7 +59,6 @@ function App() {
   }
 
   //отрисовка карточек при разных разрешениях экрана
-  // console.log(constants);
   const [isQuantityCards, setIsQuantityCards] = useState(constants.NUMBER_CARD.average);
   function setQuantityCards (big, average, small) {
     if (window.outerWidth > constants.KEY_SCREEN_SIZE.large) {setIsQuantityCards(big)};
@@ -80,7 +75,7 @@ function App() {
   })
 
   function handleOnClickButtonMore () {
-    setQuantityCards (isQuantityCards+4, isQuantityCards+2, isQuantityCards+2)
+    setQuantityCards (isQuantityCards+constants.NUMBER_CARD_MORE.big, isQuantityCards+constants.NUMBER_CARD_MORE.average, isQuantityCards+constants.NUMBER_CARD_MORE.small)
   }
 
   // переход на роуты регистрации и авторизации
@@ -90,146 +85,6 @@ function App() {
     if (name === "Login") {navigate("/signup")};
   }
 
-  // запрос карточек с сервера практикума, их сортировка и запись результатов поиска в localStorage
-  const [valueInputMovie, setvalueInputMovie] = useState('') // value input поиска фильмов в Фильм
-  const [valueInputMovieSaved, setvalueInputMovieSaved] = useState('') // value input поиска фильмов в Сохраненные фильмы
-  const [inputChecked, setInputChecked] = useState(false) // нажатие чекбокса в Фильм
-  const [inputCheckedSaved, setInputCheckedSaved] = useState(false) // нажатие чекбокса в Сохраненные фильмы
-  const [isSearchMovie, setIsSearchMovie] = useState('') // сообщение ошибки запроса или нулевого поиска вкладки Фильмы
-  const [isSearchMovieSaved, setIsSearchMovieSaved] = useState('') // сообщение нулевого поиска вкладки Сохраненные фильмы
-
-  // localStorage.removeItem(['object']); // удалить перед сдачей
-
-  function calculateButtonMore () {
-    if (currentCard) {
-      if (currentCard.length > isQuantityCards)
-      {setIsButtonMore(true)}
-      else {setIsButtonMore(false)}
-    }
-  }
-  useEffect(() => {calculateButtonMore()})
-
-  function apiMovies () {
-    if (allMovies.length === 0) {
-      setIsRequestPassed(true);
-      moviesApi.getCards ()
-        .then ((res, next) => {
-          setAllMovies(res);
-        })
-        .finally(()=>{setIsRequestPassed(false)})
-        .catch((err) => {
-          console.log(err);
-          setIsRequestPassed(false);
-          setIsSearchMovie('1Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
-        });
-          // console.log(allMovies)
-      }
-  }
-  // useEffect(()=>{apiMovies()},[])
-
-  // let requestLocalStorage = new Promise(()=> {
-  //   let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
-  //   if (inputValue !== null) {
-  //     setvalueInputMovie(inputValue.valueInputMovie);
-  //     setInputChecked(inputValue.checked);
-  //     setCurrentCard(inputValue.arrMovies);
-  //     setIsRequestLocalStorage(true)
-  //     // if (isRequestLocalStorage) {setIsRequestLocalStorage(false)}
-  //     // else {setIsRequestLocalStorage(true)}
-  //   }
-  // })
-
-  function requestLocalStorage () {
-    let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
-    if (inputValue !== null) {
-      setvalueInputMovie(inputValue.valueInputMovie);
-      setInputChecked(inputValue.checked);
-      setCurrentCard(inputValue.arrMovies);
-      setIsRequestLocalStorage(true);
-    }
-  }
-  useEffect(() => {requestLocalStorage ()},[]);
-  useEffect(() => {requestLocalStorage ()},[isNavigateMovies]);
-
-  // отрисовка отфильтрованных карточек
-  function renderingCard () {
-    setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small);
-    let arrMovies = [];
-    setIsButtonMore(false);
-    if (valueInputMovie){
-      apiMovies();
-      allMovies.map((c) => {
-        if (c.nameRU.toLowerCase().includes(valueInputMovie.toLowerCase())) {
-          if (inputChecked) {
-            if (c.duration < constants.DURATION_SHORT_MOVIE) {arrMovies.push(c)};
-          } else {arrMovies.push(c);}
-        }
-      })
-      setCurrentCard(arrMovies);
-      localStorage.setItem('arrMovies', JSON.stringify({
-        arrMovies: arrMovies,
-        valueInputMovie: valueInputMovie,
-        checked: inputChecked
-      }))
-    }
-    if (arrMovies.length === 0 && isNavigateMovies === false){
-      if (isRequestPassed) {setIsSearchMovie('')}
-      else {setIsSearchMovie('Ничего не найдено')}
-    } else { setIsSearchMovie('') }
-  }
-  useEffect(()=>{ renderingCard() },[allMovies, isRequestLocalStorage])
-
-  // отрисовка лайков на отфильтрованных карточках (вкладка фильмы)
-  function requestCurrentCardMain () {
-    setIsRequestPassed(true)
-    let arrMain=[]
-    mainApi.getCards ()
-      .then ((res)=>{
-        console.log(currentUser)
-        console.log(currentCard)
-
-        res.forEach(c => {
-          if (c.owner === currentUser._id) {
-            arrMain.push(c)
-          }
-        });
-        setCurrentCardMain(arrMain)
-      })
-      .finally(()=>{setIsRequestPassed(false)})
-      .catch((err) => {
-        console.log(err);
-        setIsRequestPassed(false);
-        setIsSearchMovie('2Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
-      });
-  }
-  useEffect(() => {requestCurrentCardMain()},[currentUser, currentCard]);
-
-  // отрисовка отфильтрованных, сохраненных пользователем карточек
-  function renderingSavedCard () {
-    setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small)
-    let arrSavedMovies = [];
-    setIsButtonMore(false);
-    setCurrentCardSaved(currentCardMain)
-    // console.log(valueInputMovieSaved)
-    currentCardMain.map((c) => {
-      if (valueInputMovieSaved){
-        if (c.nameRU.toLowerCase().includes(valueInputMovieSaved.toLowerCase())) {
-          if (inputCheckedSaved) {
-            if (c.duration < constants.DURATION_SHORT_MOVIE) {arrSavedMovies.push(c)}
-          } else {arrSavedMovies.push(c);}
-      }} else {
-        if (inputCheckedSaved) {
-          if (c.duration < constants.DURATION_SHORT_MOVIE) {arrSavedMovies.push(c)}
-        } else { arrSavedMovies = currentCardMain }
-      }
-      setCurrentCardSaved(arrSavedMovies);
-    })
-    if (arrSavedMovies.length === 0 && isNavigateMovies === true){
-      setIsSearchMovieSaved('Ничего не найдено')
-    } else { setIsSearchMovieSaved('') }
-  }
-  useEffect(()=>{renderingSavedCard()},[currentUser, currentCardMain])
-  
   // переход на страницы пользователем
   let urlRoute=window.location.pathname
   function redirect () {
@@ -252,12 +107,145 @@ function App() {
     navigate("/no-route");
   }
 
-   function handleCheckToken () {
+  // показ кнопки Ещё в зависимости от количества отрисованных карточек
+  function calculateButtonMore () {
+    if (currentCard) {
+      if (currentCard.length > isQuantityCards)
+      {setIsButtonMore(true)}
+      else {setIsButtonMore(false)}
+    }
+  }
+  useEffect(() => {calculateButtonMore()})
+
+  // изменение текста кнопки редактирования профиля
+  function changeButtonSave () {
+    setIsButtonSave(false)
+  }
+
+  // запись данных из localStorage
+  function requestLocalStorage () {
+    let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
+    if (inputValue !== null) {
+      setvalueInputMovie(inputValue.valueInputMovie);
+      setInputChecked(inputValue.checked);
+      setCurrentCard(inputValue.arrMovies);
+    }
+    setIsRequestLocalStorage(true);
+  }
+  // useEffect(() => {requestLocalStorage ()},[]);
+  useEffect(() => {requestLocalStorage ()},[isNavigateMovies]);
+
+  function filterMovies () {
+    let arrMovies = [];
+    allMovies.map((c) => {
+      if (c.nameRU.toLowerCase().includes(valueInputMovie.toLowerCase())) {
+        if (inputChecked) {
+          if (c.duration < constants.DURATION_SHORT_MOVIE) {arrMovies.push(c)};
+        } else {arrMovies.push(c);}
+      }
+    })
+    setCurrentCard(arrMovies);
+    if (valueInputMovie) {
+      localStorage.setItem('arrMovies', JSON.stringify({
+        arrMovies: arrMovies,
+        valueInputMovie: valueInputMovie,
+        checked: inputChecked
+      }))
+    }
+    if (arrMovies.length === 0 && isNavigateMovies === false){
+      if (allMovies.length === 0) {setIsSearchMovie('')}
+      else {setIsSearchMovie('Ничего не найденоM')}
+    } else { setIsSearchMovie('') }
+  }
+  useEffect(()=>{filterMovies()},[allMovies])
+
+  // отрисовка отфильтрованных карточек во вкладка Фильмы
+  function renderingCard () {
+    setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small);
+    setIsButtonMore(false);
+    if (valueInputMovie){
+        if (allMovies.length === 0) {
+          setIsRequestPassed(true);
+          moviesApi.getCards ()
+            .then ((res, next) => {
+              setAllMovies(res);
+            })
+            .then (()=>{
+              filterMovies ()
+            })
+            .finally(()=>{setIsRequestPassed(false)})
+            .catch((err) => {
+              console.log(`Ошибка: ${err}`)
+              if (err === 401) {
+                setLoggedIn(false);
+                quitUser();
+              }
+              setIsRequestPassed(false);
+              setIsSearchMovie('1Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+            });
+        } else {filterMovies()}
+    }
+  }
+
+  // отрисовка лайков на отфильтрованных карточках (вкладка фильмы)
+  function requestCurrentCardMain () {
+    let arrMain=[]
+    if (currentCard.length !== 0) {
+      mainApi.getCards ()
+        .then ((res)=>{
+          setIsRequestPassed(true)
+          res.forEach(c => {
+            if (c.owner === currentUser._id) {
+              arrMain.push(c)
+            }
+          });
+          setCurrentCardMain(arrMain)
+        })
+        .finally(()=>{setIsRequestPassed(false)})
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`)
+          if (err === 401) {
+            setLoggedIn(false);
+            quitUser();
+          }
+          setIsRequestPassed(false);
+          setIsSearchMovie('2Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+        });
+    }
+  }
+  useEffect(() => {requestCurrentCardMain()},[currentUser, currentCard]);
+
+  // отрисовка отфильтрованных, сохраненных пользователем карточек
+  function renderingSavedCard () {
+    setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small)
+    let arrSavedMovies = [];
+    setIsButtonMore(false);
+    setCurrentCardSaved(currentCardMain);
+    currentCardMain.map((c) => {
+      if (valueInputMovieSaved){
+        if (c.nameRU.toLowerCase().includes(valueInputMovieSaved.toLowerCase())) {
+          if (inputCheckedSaved) {
+            if (c.duration < constants.DURATION_SHORT_MOVIE) {arrSavedMovies.push(c)}
+          } else {arrSavedMovies.push(c);}
+        }
+      } else {
+        if (inputCheckedSaved) {
+          if (c.duration < constants.DURATION_SHORT_MOVIE) {arrSavedMovies.push(c)}
+        } else { arrSavedMovies = currentCardMain }
+      }
+      setCurrentCardSaved(arrSavedMovies);
+    })
+    if (arrSavedMovies.length === 0 && isNavigateMovies === true){
+      setIsSearchMovieSaved('Ничего не найденоS')
+    } else { setIsSearchMovieSaved('') }
+  }
+  useEffect(()=>{renderingSavedCard()},[currentUser, currentCardMain])
+
+  // проверка авторизации при загрузке и при эксплуатации
+  function handleCheckToken () {
     checkToken () 
       .then((response) => {
         if (response.ok) {
-          // console.log('ok-checkToken');
-          // console.log(urlRoute)
           setLoggedIn(true);
           redirect();
           mainApi.getUser ()
@@ -273,20 +261,25 @@ function App() {
   }
   useEffect(()=>{ handleCheckToken() },[])
 
-  function checkTokenMovies () {
-    if (loggedIn) {
-      checkToken () 
-        .then((response) => { 
-          if (!response.ok) {
-            quitUser();
-            navigate("/signin");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }
-  useEffect(()=>{ checkTokenMovies() })
+  // function checkTokenMovies () {
+  //   if (loggedIn) {
 
+  //     checkToken () 
+  //       .then((response) => {
+  //         console.log('1')
+  //         if (!response.ok) {quitUser()} 
+  //       })
+  //       .then(()=>{
+  //         console.log('2')
+
+  //         navigate("/signin")
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }
+  // useEffect(()=>{checkTokenMovies()},[loggedIn])
+
+  // запрос редактирования профиля
   function updateUser (userData) {
     mainApi.patchUserInfo (userData)
       .then ((res) => {
@@ -297,11 +290,17 @@ function App() {
         setIsDisabledInput(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(`Ошибка: ${err}`)
+        if (err === 401) {
+          setLoggedIn(false);
+          quitUser();
+          return;
+        }
         alert('Ошибка редактирования профиля');
-      });
+      })
   }
 
+  // localStorage.removeItem('arrMovies');
   // console.log(`cardMain:`)
   // console.log(currentCardMain)
   // console.log(`cardSaved:`)
@@ -310,6 +309,8 @@ function App() {
   // console.log(currentCard)
   // console.log(valueInputMovie)
   // console.log(JSON.parse(localStorage.getItem('arrMovies')))
+  // console.log(loggedIn)
+  
 
   // добавление карточки в сохраненные
   function handleAddCard (card) {
@@ -320,9 +321,13 @@ function App() {
       .then (()=>{
         setIsRequestDelCard(true);
       })
-      .catch((err) => {
-        console.log(err)
-      });
+      .catch((err, res) => {
+        console.log(`Ошибка: ${err}`)
+        if (err === 401) {
+          setLoggedIn(false);
+          quitUser();
+        }
+      })
   }
 
   // удаление карточки из сохраненных
@@ -348,8 +353,12 @@ function App() {
       .then (()=>{
         setIsRequestDelCard(true);
       })
-      .catch((err) => {
-        console.log(err)
+      .catch((err, res) => {
+        console.log(`Ошибка: ${err}`)
+        if (err === 401) {
+          setLoggedIn(false);
+          quitUser();
+        }
       })
   }
 
@@ -358,10 +367,13 @@ function App() {
     register(name, email, password)
       .then((res) => {
         if (!(res===undefined)) {
-          // console.log(res.token)
           apiLogin(email, password)
         }
         return res;
+      })
+      .finally(()=>{
+        setIsDisabledInput(false);
+        setIsValid(true);
       })
       .catch((err) => {
         console.log(err);
@@ -379,6 +391,7 @@ function App() {
       })
       .finally(()=>{
         setIsDisabledInput(false);
+        setIsValid(true);
       })
       .catch((err) => {
         console.log(err);
@@ -393,12 +406,8 @@ function App() {
     setCurrentCardSaved([]);
     setvalueInputMovie('');
     setLoggedIn(false);
-    navigate("/");
-  }
-
-  // изменение текста кнопки редактирования профиля
-  function changeButtonSave () {
-    setIsButtonSave(false)
+    resetForm();
+    navigate("/signin");
   }
 
   return (
@@ -420,7 +429,8 @@ function App() {
             <ProtectedRoute loggedIn={loggedIn} component={Header}
               isNavigationPopupOpen = {isNavigationPopupOpen} onPopupNavigation = {handleOnPopupNavigation}
               onClose = {closeAllPopups} onCloseOverlay = {onCloseOverlay} offNavigation = {"Enabled"}
-              isNavigateMovies={isNavigateMovies} setIsNavigateMovies={setIsNavigateMovies}
+              // isNavigateMovies={isNavigateMovies} 
+              setIsNavigateMovies={setIsNavigateMovies}
               // setvalueInputMovie={setvalueInputMovie}
               auth = {""}
               />
@@ -429,6 +439,7 @@ function App() {
               handleOnClickButtonMore={handleOnClickButtonMore}
               currentCard={currentCard} setCurrentCard={setCurrentCard}
               valueInputMovie={valueInputMovie} setvalueInputMovie={setvalueInputMovie}
+              valueInputMovieSaved={valueInputMovieSaved} setvalueInputMovieSaved={setvalueInputMovieSaved}
               inputChecked={inputChecked} setInputChecked={setInputChecked}
               isSearchMovie={isSearchMovie} 
               isNavigateMovies={isNavigateMovies}
@@ -450,7 +461,8 @@ function App() {
               isNavigationPopupOpen = {isNavigationPopupOpen}
               onPopupNavigation = {handleOnPopupNavigation} onClose = {closeAllPopups}
               onCloseOverlay = {onCloseOverlay} offNavigation = {"Enabled"}
-              isNavigateMovies={isNavigateMovies} setIsNavigateMovies={setIsNavigateMovies}
+              // isNavigateMovies={isNavigateMovies} 
+              setIsNavigateMovies={setIsNavigateMovies}
               // setvalueInputMovie={setvalueInputMovie}
               auth = {""}
             />
@@ -478,13 +490,17 @@ function App() {
                isNavigationPopupOpen = {isNavigationPopupOpen}
                onPopupNavigation = {handleOnPopupNavigation} onClose = {closeAllPopups}
                onCloseOverlay = {onCloseOverlay} offNavigation = {"Enabled"}
-               isNavigateMovies={isNavigateMovies} setIsNavigateMovies={setIsNavigateMovies}
+              //  isNavigateMovies={isNavigateMovies} 
+               setIsNavigateMovies={setIsNavigateMovies}
               //  auth = {"Auth"}
             />
             <ProtectedRoute loggedIn={loggedIn} component={Profile}
               onClickPopupWithForm={onClickPopupWithForm} updateUser={updateUser}
               isButtonSave={isButtonSave} changeButtonSave={changeButtonSave}
               isDisabledInput={isDisabledInput} setIsDisabledInput={setIsDisabledInput}
+              values={values} errors={errors} isValid={isValid} isValidInputs={isValidInputs} 
+              setErrors={setErrors} setIsValid={setIsValid} setIsValidInputs={setIsValidInputs} 
+              setValues={setValues} handleChange={handleChange} resetForm={resetForm}
             />
           </>
         }/>
@@ -494,11 +510,15 @@ function App() {
               isNavigationPopupOpen = {isNavigationPopupOpen}
               onPopupNavigation = {handleOnPopupNavigation} onClose = {closeAllPopups}
               onCloseOverlay = {onCloseOverlay} offNavigation = {"Disabled"}
+              setIsNavigateMovies={setIsNavigateMovies}
               auth = {"Auth"}
             />
             <Login onClickPopupWithForm={onClickPopupWithForm} apiLogin={apiLogin} 
               isButtonSave={isButtonSave} changeButtonSave={changeButtonSave}
               isDisabledInput={isDisabledInput} setIsDisabledInput={setIsDisabledInput}
+              values={values} errors={errors} isValid={isValid} isValidInputs={isValidInputs} 
+              setErrors={setErrors} setIsValid={setIsValid} setIsValidInputs={setIsValidInputs} 
+              setValues={setValues} handleChange={handleChange} resetForm={resetForm}
             />
           </>
         }/>
@@ -508,11 +528,15 @@ function App() {
               isNavigationPopupOpen = {isNavigationPopupOpen}
               onPopupNavigation = {handleOnPopupNavigation} onClose = {closeAllPopups}
               onCloseOverlay = {onCloseOverlay} offNavigation = {"Disabled"}
+              setIsNavigateMovies={setIsNavigateMovies}
               auth = {"Auth"}
             />
             <Register onClickPopupWithForm={onClickPopupWithForm} apiRegister={apiRegister}
               isButtonSave={isButtonSave} changeButtonSave={changeButtonSave}
               isDisabledInput={isDisabledInput} setIsDisabledInput={setIsDisabledInput}
+              values={values} errors={errors} isValid={isValid} isValidInputs={isValidInputs} 
+              setErrors={setErrors} setIsValid={setIsValid} setIsValidInputs={setIsValidInputs} 
+              setValues={setValues} handleChange={handleChange} resetForm={resetForm}
             />
           </>
         }/>

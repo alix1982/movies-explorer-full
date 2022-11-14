@@ -5,8 +5,14 @@ import buttonAkkaunt from '../../images/buttonAkkaunt.svg';
 import buttonAkkauntMain from '../../images/buttonAkkauntMain.svg';
 
 function Navigation (props) {
-  // console.log(props.isNavigationPopupOpen)
-  // console.log(props.isNavigateMovies)
+
+  function setFirstNavigateMovies () {
+    let urlRouteNavigate=window.location.pathname;
+    if (urlRouteNavigate === "/saved-movie") {props.setIsNavigateMovies(true)}
+    if (urlRouteNavigate === "/movies") {props.setIsNavigateMovies(false)}
+  }
+  useEffect(()=>{setFirstNavigateMovies()},[])
+
   let butAkk = buttonAkkaunt;
   if (props.auth === 'Main' && (!props.isNavigationPopupOpen)) {butAkk = buttonAkkauntMain};
 
@@ -25,16 +31,9 @@ function Navigation (props) {
       `navigation__main navigation__main_active` : 
       `navigation__main navigation__main`;
 
-  // function transitionMain() {
-  //   props.onClose();
-  //   props.setIsNavigateMovies(false)
-  //  }
   function transitionMovies() {
     props.onClose();
     props.setIsNavigateMovies(false)
-    // if (props.isNavigateMovies) {props.setIsNavigateMovies(false)}
-    // else {props.setIsNavigateMovies(true)}
-    // props.setvalueInputMovie('')
   }
   function transitionSavedMovies() {
     props.onClose();

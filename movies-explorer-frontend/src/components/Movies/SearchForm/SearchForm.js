@@ -3,15 +3,11 @@ import search from '../../../images/buttonSearch.svg';
 import { useState, useEffect } from 'react';
 
 function SearchForm (props) {
-
-  // заполнение инпута из localStorage и пользователем
-  // function requestLocalStorage () {
-  //   let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
-  //   props.setvalueInputMovie(inputValue.valueInputMovie);
-  //   props.setInputChecked(inputValue.checked);
-  //   props.setCurrentCard(inputValue.arrMovies);
-  // }
-  // useEffect(() => {requestLocalStorage ()},[])
+  function clearingFormLoads () {
+    props.setvalueInputMovieSaved('');
+  }
+  useEffect(()=>{clearingFormLoads()},[])
+  useEffect(()=>{clearingFormLoads()},[props.isNavigateMovies])
 
   function handleOnChange (e) {
     props.setvalueInputMovie(e.target.value);
@@ -20,10 +16,7 @@ function SearchForm (props) {
     props.setInputChecked(e.target.checked)
   }
 
-  useEffect(()=>{ 
-    props.renderingCard();
-    // console.log('ok1');
-  },[props.inputChecked])
+  useEffect(()=>{ props.renderingCard() },[props.inputChecked])
 
   const [isMessageErr, setIsMessageErr] = useState('');  // сообщение о пустом поле ввода и ошибке запроса
 
@@ -37,7 +30,6 @@ function SearchForm (props) {
       props.setInputChecked(e.target[3].checked);
     }
     setIsMessageErr('');
-    // console.log('ok2');
     props.renderingCard();
   }
 

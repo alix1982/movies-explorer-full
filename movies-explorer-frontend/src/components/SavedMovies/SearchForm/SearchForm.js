@@ -11,6 +11,7 @@ function SearchForm (props) {
     props.setInputCheckedSaved(false)
   }
   useEffect(()=>{clearingFormLoads()},[])
+  useEffect(()=>{clearingFormLoads()},[props.isNavigateMovies])
 
   function handleOnChange (e) {
     props.setvalueInputMovieSaved(e.target.value);
