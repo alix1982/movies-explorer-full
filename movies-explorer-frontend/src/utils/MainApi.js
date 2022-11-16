@@ -34,8 +34,6 @@ class MainApi {
 
   getCards = () => {
     this._setJwt(localStorage.getItem('token'));
-    // console.log(localStorage.getItem('token'))
-
     return (fetch(`${this.mainUrl}/movies`, {
       method: 'GET',
       headers: this.heading,
@@ -46,7 +44,6 @@ class MainApi {
 
   postAddCard = (card) => {
     this._setJwt(localStorage.getItem('token'));
-    // console.log(`${this.movieUrl}${card.image.url}`)
     return (fetch(`${this.mainUrl}/movies`, {
       method: 'POST',
       headers: this.heading,
@@ -78,34 +75,6 @@ class MainApi {
       .then(res => this._getStatus(res))
     )
   }
-
-  // getCounterLike = (card, method) => {
-  //   // this._setJwt(localStorage.getItem('token'));
-  //   console.log(`${this.movieUrl}${card.image.url}`)
-  //   return (fetch(`${this.mainUrl}/movies`, {
-  //     method: method,
-  //     headers: this.heading,
-  //     body: JSON.stringify({
-  //       country: card.country,
-  //       director: card.director,
-  //       duration: card.duration,
-  //       year: card.year,
-  //       description: card.description,
-  //       image: `${this.movieUrl}${card.image.url}`,
-  //       trailerLink: card.trailerLink,
-  //       nameRU: card.nameRU,
-  //       nameEN: card.nameEN,
-  //       thumbnail: `${this.movieUrl}${card.image.formats.thumbnail.url}`,
-  //       movieId: card.id,
-  //       // owner: "633490f552e1e44d60014077"
-  //     })
-  //   })
-  //     .then(res => {
-  //       console.log(res)
-  //       this._getStatus(res)
-  //     })
-  //   )
-  // }
 
   getUser = () => {
     this._setJwt(localStorage.getItem('token'));

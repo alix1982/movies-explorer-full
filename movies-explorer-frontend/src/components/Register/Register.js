@@ -3,10 +3,8 @@ import validator from 'validator';
 
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 import FieldForm from '../FieldForm/FieldForm.js';
-import {useFormWithValidation} from '../formValidation.js';
 
 function Register (props) {
-  // const { values, errors, isValid, isValidInputs, setErrors, setIsValid, setIsValidInputs, handleChange, resetForm } = useFormWithValidation();
 
   useEffect(()=>{
     props.resetForm();

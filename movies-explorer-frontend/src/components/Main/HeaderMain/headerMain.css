@@ -7,7 +7,7 @@
   background: #5C5C5C;
 }
 .headerMain__logo {
-  padding-left: 70px;
+  margin-left: 70px;
 }
 .headerMain__user {
   display: flex;
@@ -54,7 +54,7 @@
 
 @media screen and (max-width: 800px) {
   .headerMain__logo {
-    padding-left: 30px;
+    margin-left: 30px;
   }
   .headerMain__user {
     padding-right: 30px;
@@ -63,7 +63,7 @@
 
 @media screen and (max-width: 400px) {
   .headerMain__logo {
-    padding-left: 14px;
+    margin-left: 14px;
   }
   .headerMain__user {
     padding-right: 14px;

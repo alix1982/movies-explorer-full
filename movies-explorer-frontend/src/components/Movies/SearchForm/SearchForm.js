@@ -11,12 +11,18 @@ function SearchForm (props) {
 
   function handleOnChange (e) {
     props.setvalueInputMovie(e.target.value);
+    props.setIsFirstSubmitMovies(true);
+
   }
   function handleOnChangeChecked (e) {
     props.setInputChecked(e.target.checked)
-  }
+    props.setIsFirstSubmitMovies(true);
 
-  useEffect(()=>{ props.renderingCard() },[props.inputChecked])
+  }
+  useEffect(()=>{
+    // console.log(props.inputChecked);
+    props.renderingCard();
+  },[props.inputChecked])
 
   const [isMessageErr, setIsMessageErr] = useState('');  // сообщение о пустом поле ввода и ошибке запроса
 

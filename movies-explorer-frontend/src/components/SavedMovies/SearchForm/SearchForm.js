@@ -40,7 +40,6 @@ function SearchForm (props) {
           <input 
             className="searchForm__inputText" name="searchFilm" type='text' 
             onChange={handleOnChange}
-            // value={props.valueInputMovie}
             placeholder="Фильм" required
           />
           <button className="searchForm__buttonSearch">Найти</button>
@@ -48,7 +47,6 @@ function SearchForm (props) {
         <label htmlFor="searchFormCheckbox" className="searchForm__switch">
           <input className="searchForm__switchCheckbox" id="searchFormCheckbox" type="checkbox" 
             onChange={handleOnChangeChecked} 
-            // checked={props.inputChecked}
           />
           <span className="searchForm__imgCheckbox"></span>
           <p className="searchForm__textCheckbox">Короткометражки</p>

@@ -1,7 +1,9 @@
+// импорты для реакта
 import React from 'react';
 import {useEffect, useState} from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
+// импорт роутов
 import Header from '../Header/Header.js';
 import Main from '../Main/Main.js';
 import Movies from '../Movies/Movies.js';
@@ -12,6 +14,8 @@ import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
 import ProtectedRoute from '../ProtectedRoute.js';
 import NoRoute from '../NoRoute/NoRoute';
+
+// дополнительный импорт
 import { moviesApi } from '../../utils/MoviesApi.js';
 import { mainApi } from '../../utils/MainApi.js';
 import { useApiAuth } from '../../utils/ApiAuth.js';
@@ -40,10 +44,22 @@ function App() {
   const [inputCheckedSaved, setInputCheckedSaved] = useState(false) // нажатие чекбокса в Сохраненные фильмы
   const [isSearchMovie, setIsSearchMovie] = useState('') // сообщение ошибки запроса или нулевого поиска вкладки Фильмы
   const [isSearchMovieSaved, setIsSearchMovieSaved] = useState('') // сообщение нулевого поиска вкладки Сохраненные фильмы
+  const [isFirstSubmitMovies, setIsFirstSubmitMovies] = useState(false) // первый сабмит во вкладке Фильмы
   
   const { values, errors, isValid, isValidInputs, setValues, setErrors, setIsValid, setIsValidInputs, handleChange, resetForm } = useFormWithValidation();
   const { register, login, checkToken } = useApiAuth();
   let navigate = useNavigate();
+
+  // localStorage.removeItem('arrMovies');
+  // console.log(`cardMain:`)
+  // console.log(currentCardMain)
+  // console.log(`cardSaved:`)
+  // console.log(currentCardSaved)
+  // console.log(currentUser)
+  // console.log(currentCard)
+  // console.log(valueInputMovie)
+  // console.log(JSON.parse(localStorage.getItem('arrMovies')))
+  // console.log(loggedIn)
 
   // закрытие попапов
   function onCloseOverlay (evt) {
@@ -57,25 +73,35 @@ function App() {
   function handleOnPopupNavigation () {
     setIsNavigationPopup(true);
   }
-
+  console.log(window.outerWidth)
   //отрисовка карточек при разных разрешениях экрана
   const [isQuantityCards, setIsQuantityCards] = useState(constants.NUMBER_CARD.average);
-  function setQuantityCards (big, average, small) {
+  function setQuantityCards (big, averageFirst, averageSecond, small) {
     if (window.outerWidth > constants.KEY_SCREEN_SIZE.large) {setIsQuantityCards(big)};
-    if (window.outerWidth <= constants.KEY_SCREEN_SIZE.large && window.outerWidth > constants.KEY_SCREEN_SIZE.small) {
-      setIsQuantityCards(average)
+    if (window.outerWidth <= constants.KEY_SCREEN_SIZE.large && window.outerWidth > constants.KEY_SCREEN_SIZE.average) {
+      setIsQuantityCards(averageFirst)
+    };
+    if (window.outerWidth <= constants.KEY_SCREEN_SIZE.average && window.outerWidth > constants.KEY_SCREEN_SIZE.small) {
+      setIsQuantityCards(averageSecond)
     };
     if (window.outerWidth <= constants.KEY_SCREEN_SIZE.small) {setIsQuantityCards(small)};
   }
   useEffect(()=> {
     function onQuantityCards () { 
-      setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small)
+      setQuantityCards (
+        constants.NUMBER_CARD.big, constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small
+      )
     };
     window.onresize = onQuantityCards;
   })
 
   function handleOnClickButtonMore () {
-    setQuantityCards (isQuantityCards+constants.NUMBER_CARD_MORE.big, isQuantityCards+constants.NUMBER_CARD_MORE.average, isQuantityCards+constants.NUMBER_CARD_MORE.small)
+    setQuantityCards (
+      isQuantityCards+constants.NUMBER_CARD_MORE.big, 
+      isQuantityCards+constants.NUMBER_CARD_MORE.average,
+      isQuantityCards+constants.NUMBER_CARD_MORE.small,
+      isQuantityCards+constants.NUMBER_CARD_MORE.small
+    )
   }
 
   // переход на роуты регистрации и авторизации
@@ -126,17 +152,20 @@ function App() {
   function requestLocalStorage () {
     let inputValue = JSON.parse(localStorage.getItem('arrMovies'));
     if (inputValue !== null) {
+      setCurrentCard(inputValue.arrMovies);
       setvalueInputMovie(inputValue.valueInputMovie);
       setInputChecked(inputValue.checked);
-      setCurrentCard(inputValue.arrMovies);
     }
     setIsRequestLocalStorage(true);
   }
-  // useEffect(() => {requestLocalStorage ()},[]);
+  useEffect(() => {requestLocalStorage ()},[]);
   useEffect(() => {requestLocalStorage ()},[isNavigateMovies]);
 
   function filterMovies () {
     let arrMovies = [];
+    if (!isFirstSubmitMovies) {
+      return;
+    }
     allMovies.map((c) => {
       if (c.nameRU.toLowerCase().includes(valueInputMovie.toLowerCase())) {
         if (inputChecked) {
@@ -144,7 +173,7 @@ function App() {
         } else {arrMovies.push(c);}
       }
     })
-    setCurrentCard(arrMovies);
+    setCurrentCard(arrMovies)
     if (valueInputMovie) {
       localStorage.setItem('arrMovies', JSON.stringify({
         arrMovies: arrMovies,
@@ -154,36 +183,42 @@ function App() {
     }
     if (arrMovies.length === 0 && isNavigateMovies === false){
       if (allMovies.length === 0) {setIsSearchMovie('')}
-      else {setIsSearchMovie('Ничего не найденоM')}
+      else {setIsSearchMovie('Ничего не найдено')}
     } else { setIsSearchMovie('') }
   }
   useEffect(()=>{filterMovies()},[allMovies])
 
   // отрисовка отфильтрованных карточек во вкладка Фильмы
   function renderingCard () {
-    setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small);
+    setQuantityCards (
+      constants.NUMBER_CARD.big, constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small
+    );
     setIsButtonMore(false);
     if (valueInputMovie){
-        if (allMovies.length === 0) {
-          setIsRequestPassed(true);
-          moviesApi.getCards ()
-            .then ((res, next) => {
-              setAllMovies(res);
-            })
-            .then (()=>{
-              filterMovies ()
-            })
-            .finally(()=>{setIsRequestPassed(false)})
-            .catch((err) => {
-              console.log(`Ошибка: ${err}`)
-              if (err === 401) {
-                setLoggedIn(false);
-                quitUser();
-              }
-              setIsRequestPassed(false);
-              setIsSearchMovie('1Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
-            });
-        } else {filterMovies()}
+      if (!isFirstSubmitMovies) {
+        filterMovies();
+        return;
+      }
+      if (allMovies.length === 0) {
+        setIsRequestPassed(true);
+        moviesApi.getCards ()
+          .then ((res, next) => {
+            setAllMovies(res);
+          })
+          .then (()=>{
+            filterMovies ()
+          })
+          .finally(()=>{setIsRequestPassed(false)})
+          .catch((err) => {
+            console.log(`Ошибка: ${err}`)
+            if (err === 401) {
+              setLoggedIn(false);
+              quitUser();
+            }
+            setIsRequestPassed(false);
+            setIsSearchMovie('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+          });
+      } else {filterMovies()}
     }
   }
 
@@ -209,7 +244,7 @@ function App() {
             quitUser();
           }
           setIsRequestPassed(false);
-          setIsSearchMovie('2Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+          setIsSearchMovie('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
         });
     }
   }
@@ -217,7 +252,9 @@ function App() {
 
   // отрисовка отфильтрованных, сохраненных пользователем карточек
   function renderingSavedCard () {
-    setQuantityCards (constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small)
+    setQuantityCards (
+      constants.NUMBER_CARD.big, constants.NUMBER_CARD.big, constants.NUMBER_CARD.average, constants.NUMBER_CARD.small
+    )
     let arrSavedMovies = [];
     setIsButtonMore(false);
     setCurrentCardSaved(currentCardMain);
@@ -236,7 +273,7 @@ function App() {
       setCurrentCardSaved(arrSavedMovies);
     })
     if (arrSavedMovies.length === 0 && isNavigateMovies === true){
-      setIsSearchMovieSaved('Ничего не найденоS')
+      setIsSearchMovieSaved('Ничего не найдено')
     } else { setIsSearchMovieSaved('') }
   }
   useEffect(()=>{renderingSavedCard()},[currentUser, currentCardMain])
@@ -261,24 +298,6 @@ function App() {
   }
   useEffect(()=>{ handleCheckToken() },[])
 
-  // function checkTokenMovies () {
-  //   if (loggedIn) {
-
-  //     checkToken () 
-  //       .then((response) => {
-  //         console.log('1')
-  //         if (!response.ok) {quitUser()} 
-  //       })
-  //       .then(()=>{
-  //         console.log('2')
-
-  //         navigate("/signin")
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }
-  // useEffect(()=>{checkTokenMovies()},[loggedIn])
-
   // запрос редактирования профиля
   function updateUser (userData) {
     mainApi.patchUserInfo (userData)
@@ -299,18 +318,6 @@ function App() {
         alert('Ошибка редактирования профиля');
       })
   }
-
-  // localStorage.removeItem('arrMovies');
-  // console.log(`cardMain:`)
-  // console.log(currentCardMain)
-  // console.log(`cardSaved:`)
-  // console.log(currentCardSaved)
-  // console.log(currentUser)
-  // console.log(currentCard)
-  // console.log(valueInputMovie)
-  // console.log(JSON.parse(localStorage.getItem('arrMovies')))
-  // console.log(loggedIn)
-  
 
   // добавление карточки в сохраненные
   function handleAddCard (card) {
@@ -429,28 +436,26 @@ function App() {
             <ProtectedRoute loggedIn={loggedIn} component={Header}
               isNavigationPopupOpen = {isNavigationPopupOpen} onPopupNavigation = {handleOnPopupNavigation}
               onClose = {closeAllPopups} onCloseOverlay = {onCloseOverlay} offNavigation = {"Enabled"}
-              // isNavigateMovies={isNavigateMovies} 
               setIsNavigateMovies={setIsNavigateMovies}
-              // setvalueInputMovie={setvalueInputMovie}
               auth = {""}
               />
             <ProtectedRoute loggedIn={loggedIn} component={Movies}
               isQuantityCards={isQuantityCards}
               handleOnClickButtonMore={handleOnClickButtonMore}
-              currentCard={currentCard} setCurrentCard={setCurrentCard}
+              currentCard={currentCard} 
               valueInputMovie={valueInputMovie} setvalueInputMovie={setvalueInputMovie}
               valueInputMovieSaved={valueInputMovieSaved} setvalueInputMovieSaved={setvalueInputMovieSaved}
               inputChecked={inputChecked} setInputChecked={setInputChecked}
               isSearchMovie={isSearchMovie} 
               isNavigateMovies={isNavigateMovies}
-              // setIsSearchMovie={setIsSearchMovie}
               renderingCard={renderingCard}
-              setIsRequestPassed={setIsRequestPassed} isRequestPassed={isRequestPassed}
+              isRequestPassed={isRequestPassed} setIsRequestPassed={setIsRequestPassed}
               isButtonMore={isButtonMore}
               isRequestDelCard={isRequestDelCard} setIsRequestDelCard={setIsRequestDelCard}
               onCardLike = {handleAddCard}
               offCardLike={handleCardDelete}
               currentCardMain={currentCardMain}
+              setIsFirstSubmitMovies={setIsFirstSubmitMovies}
             />
             <ProtectedRoute loggedIn={loggedIn} component={Footer}/>
           </>
@@ -461,25 +466,20 @@ function App() {
               isNavigationPopupOpen = {isNavigationPopupOpen}
               onPopupNavigation = {handleOnPopupNavigation} onClose = {closeAllPopups}
               onCloseOverlay = {onCloseOverlay} offNavigation = {"Enabled"}
-              // isNavigateMovies={isNavigateMovies} 
               setIsNavigateMovies={setIsNavigateMovies}
-              // setvalueInputMovie={setvalueInputMovie}
               auth = {""}
             />
             <ProtectedRoute loggedIn={loggedIn} component={SavedMovies}
               isQuantityCards={isQuantityCards}
-              setCurrentCard={setCurrentCard}
-              valueInputMovieSaved={valueInputMovieSaved} setvalueInputMovieSaved={setvalueInputMovieSaved}
+              setvalueInputMovieSaved={setvalueInputMovieSaved}
               inputCheckedSaved={inputCheckedSaved} setInputCheckedSaved={setInputCheckedSaved}
               isSearchMovieSaved={isSearchMovieSaved} 
               isNavigateMovies={isNavigateMovies}
-              // setIsSearchMovie={setIsSearchMovie}
               renderingSavedCard={renderingSavedCard}
               isRequestPassed={isRequestPassed}
               offCardLike={handleCardDelete}
               currentCardMain={currentCardMain} 
-              currentCardSaved={currentCardSaved} 
-              setCurrentCardSaved={setCurrentCardSaved}
+              currentCardSaved={currentCardSaved} setCurrentCardSaved={setCurrentCardSaved}
             />
             <ProtectedRoute loggedIn={loggedIn} component={Footer}/>
           </>
@@ -490,9 +490,7 @@ function App() {
                isNavigationPopupOpen = {isNavigationPopupOpen}
                onPopupNavigation = {handleOnPopupNavigation} onClose = {closeAllPopups}
                onCloseOverlay = {onCloseOverlay} offNavigation = {"Enabled"}
-              //  isNavigateMovies={isNavigateMovies} 
                setIsNavigateMovies={setIsNavigateMovies}
-              //  auth = {"Auth"}
             />
             <ProtectedRoute loggedIn={loggedIn} component={Profile}
               onClickPopupWithForm={onClickPopupWithForm} updateUser={updateUser}

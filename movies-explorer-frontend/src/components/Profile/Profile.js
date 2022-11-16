@@ -3,14 +3,11 @@ import validator from 'validator';
 
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 import FieldForm from '../FieldForm/FieldForm.js';
-// import {useFormWithValidation} from '../formValidation.js';
 import {CurrentUserContext, currentUserContext} from '../../contexts/CurrentUserContext.js';
 
 function Profile (props) {
   const userContext = useContext(CurrentUserContext);
-  // const { values, errors, isValid, isValidInputs, setValues, setErrors, setIsValid, setIsValidInputs, handleChange, resetForm } = useFormWithValidation();
   // const regex = "([_A-Za-z0-9-+]{1,})@([_A-Za-z0-9-+]{1,})(.)([_A-Za-z0-9-+]{2,3})";
-  // console.log(values)
   // if (values.email) {console.log(validator.isEmail(values.email))};
   useEffect(()=>{
     if (userContext.email === props.values.email && userContext.name === props.values.name) {

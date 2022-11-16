@@ -1,3 +1,10 @@
+@media screen and (min-width: 1500px) {
+  body {
+    width: 1500px;
+    margin: 0 auto;
+  }
+}
+
 @import url(vendor/normalize.css);
 @import url(vendor/fonts/Inter_Web/inter.css);
 @import url(components/Main/HeaderMain/headerMain.css);
@@ -17,10 +24,7 @@
 @import url(components/Preloader/preloader.css);
 @import url(components/PopupWithForm/popupWithForm.css);
 @import url(components/Profile/profile.css);
-/* @import url(components/Login/login.css); */
-/* @import url(components/Register/register.css); */
 @import url(components/FieldForm/fieldForm.css);
-
 
 @import url(components/NoRoute/noRoute.css);
 

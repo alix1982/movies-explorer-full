@@ -13,7 +13,6 @@ function Main (props) {
       {(props.loggedIn) ? 
         <Header isNavigationPopupOpen = {props.isNavigationPopupOpen} onPopupNavigation = {props.onPopupNavigation}
           onClose = {props.onClose} onCloseOverlay = {props.onCloseOverlay} offNavigation = {"Enabled"}
-          // isNavigateMovies={props.isNavigateMovies} 
           setIsNavigateMovies={props.setIsNavigateMovies}
           auth = {props.auth}
         /> : 

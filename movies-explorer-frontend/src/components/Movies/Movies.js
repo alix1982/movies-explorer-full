@@ -11,12 +11,11 @@ function Movies (props) {
         valueInputMovie={props.valueInputMovie} setvalueInputMovie={props.setvalueInputMovie}
         valueInputMovieSaved={props.valueInputMovieSaved} setvalueInputMovieSaved={props.setvalueInputMovieSaved}
         inputChecked={props.inputChecked} setInputChecked={props.setInputChecked}
-        currentCard={props.currentCard} setCurrentCard={props.setCurrentCard}
+        setIsFirstSubmitMovies={props.setIsFirstSubmitMovies}
         renderingCard={props.renderingCard}
       />
       <Preloader 
         isSearchMovie={props.isSearchMovie} 
-        isSearchMovieSaved={props.isSearchMovieSaved} 
         isRequestPassed={props.isRequestPassed}
         isNavigateMovies={props.isNavigateMovies}
       />
@@ -25,10 +24,9 @@ function Movies (props) {
         handleOnClickButtonMore={props.handleOnClickButtonMore}
         setIsRequestPassed={props.setIsRequestPassed}
         isButtonMore={props.isButtonMore}
-        setIsSearchMovie={props.setIsSearchMovie}
         onCardLike={props.onCardLike}
         offCardLike={props.offCardLike}
-        currentCard={props.currentCard} setCurrentCard={props.setCurrentCard}
+        currentCard={props.currentCard} 
         currentCardMain={props.currentCardMain}
         isRequestDelCard={props.isRequestDelCard} setIsRequestDelCard={props.setIsRequestDelCard}
       />
