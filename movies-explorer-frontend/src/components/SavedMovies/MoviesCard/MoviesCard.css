@@ -1,0 +1,77 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 14px 10px;
+}
+.card__film {
+  width: 270px;
+  height: 151px;
+  object-fit: contain;
+}
+.card__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+.card__name {
+  margin: 0;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+}
+/* .card__switchCheckbox {
+  position: absolute;
+  width: 1px; 
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.card__imgCheckbox {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../images/checkboxDisableLike.svg');
+  vertical-align: middle;
+}
+.card__switchCheckbox:checked + .card__imgCheckbox {
+  background-image: url('../../../images/checkboxActiveLike.svg');
+} */
+.card__like {
+  display: block;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: #ffffff url('../../../images/checkboxDisableLike.svg');
+}
+.card__like_save {
+  display: block;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: #ffffff url('../../../images/deleteCard.svg');
+}
+.card__likeActive {
+  background-image: url('../../../images/checkboxActiveLike.svg');
+}
+.card__likeActive_save {
+  background: url('../../../images/deleteCard.svg');
+}
+.card__line {
+  width: 100%;
+  margin: 29px 0 6px;
+  border-bottom: 1px solid #E8E8E8;
+}
+.card__time {
+  align-self: flex-start;
+  font-family: Inter, Georgia, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #A0A0A0;
+  margin: 0;
+ }

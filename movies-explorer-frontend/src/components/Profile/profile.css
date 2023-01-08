@@ -1,0 +1,20 @@
+.formProfile__line {
+  width: 410px;
+  margin-bottom: 17px;
+  border-bottom: 1px solid #E8E8E8;
+}
+@media screen and (max-width: 800px) {
+  .formProfile__line {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .formProfile__line {
+    width: 335px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .formProfile__line {
+    width: 260px;
+  }
+}
