@@ -1,5 +1,5 @@
-const MAIN_URL = 'http://localhost:3001';  // для локального сервера
-// const MAIN_URL = 'https://api.alix576-movie.nomorepartiesxyz.ru';  // для публичного сервера
+// const MAIN_URL = 'http://localhost:3001';  // для локального сервера
+const MAIN_URL = 'https://api.alix576-movie.nomorepartiesxyz.ru';  // для публичного сервера
 const MOVIES_URL = 'https://api.nomoreparties.co';
 
 
