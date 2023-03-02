@@ -26,7 +26,7 @@
 ## Запуск проекта
 
 ### Для запуска проекта удаленно:
-- предварительно установить [Node.js](https://nodejs.org/en/download/) и [MangoDB](https://mongodb.prakticum-team.ru/try/download/community),
+- предварительно установить [Node.js](https://nodejs.org/en/download/) и [MongoDB](https://mongodb.prakticum-team.ru/try/download/community),
 - задать адрес обращения приложения к серверу (задать переменной `MAIN_URL` нужный адрес сервера в компоненте `movies-explorer-frontend/utils/MainApi.js` (строка 1-2)),
 - залить проект на облачный сервер:
   - скопировать бекенд часть на сервер через консоль,
@@ -38,7 +38,7 @@
 - оставить комментарии в GitHub по совершенствованию проекта.
 
 ### Для запуска проекта локально:
-- предварительно установить [Node.js](https://nodejs.org/en/download/) и [MangoDB](https://mongodb.prakticum-team.ru/try/download/community),
+- предварительно установить [Node.js](https://nodejs.org/en/download/) и [MongoDB](https://mongodb.prakticum-team.ru/try/download/community),
 - клонировать проект c gitHub,
 - задать адрес обращения приложения к локальному серверу (задать переменной `MAIN_URL` значение `http://localhost:3001` в компоненте `movies-explorer-frontend/utils/MainApi.js` (строка 1-2)),
 - настроить работу сервера локально на порту 3001 (задать переменной PORT значение 3001 в компоненте `movies-explorer-api/app.js` (строка 12-13)),
